@@ -16,8 +16,9 @@ BASE = '/var/www/'
 @csrf_exempt
 def post_user_text(request):
     if request.method == "POST":
-        user_name = request.POST.get('user_id')
+        user_id = request.POST.get('user_id')
         user_query = request.POST.get('user_query')
+        question_id = request.POST.get('question_id', None)
         
     ai = apiai.ApiAI(settings.CLIENT_ACCESS_TOKEN)
 
@@ -49,10 +50,20 @@ def post_user_text(request):
     intent_name = a['result']['metadata']['intentName']
 
     if intent_name == 'Welcome Intent':
-        res = {'question': 'Hello there! I am IMPress. How are you doing today ?',
-                'options': None}
-
+        obj = UserQuestion.objects.all()[0]
+        next_question_to_ask =  obj.question_text
+        next_question_id = obj.question_id
+        print next_question_to_ask, "next_question_to_ask"
+        res = {'question': next_question_to_ask,
+                'options': None, 'question_id': next_question_id}
         return JsonResponse(res)
+    
+    if question_id:
+        obj = QuestionHistory(user_id=user_id,
+                        question_id=question_id,
+                        question_answer=user_query)
+        obj.save()
+
 
 
 @csrf_exempt

@@ -11,6 +11,7 @@ class UserQuestionAdmin(admin.ModelAdmin):
 	pass
 class QuestionHistoryAdmin(admin.ModelAdmin):
 	pass
+
 admin.site.register(UserPoints, UserPointsAdmin)
 admin.site.register(UserData, UserDataAdmin)
 admin.site.register(UserPointHistory, UserPointHistoryAdmin)

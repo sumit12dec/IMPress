@@ -29,7 +29,8 @@ class UserQuestion(models.Model):
 
 
 class QuestionHistory(models.Model):
-	question_id_fk = models.ForeignKey(UserQuestion, db_column="question_id")
+	user_id = models.IntegerField(max_length=100)
+	question_id = models.IntegerField(max_length=100)
 	question_answer = models.CharField(max_length=1000)
 
 
