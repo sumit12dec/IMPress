@@ -57,12 +57,22 @@ def post_user_text(request):
         res = {'question': next_question_to_ask,
                 'options': None, 'question_id': next_question_id}
         return JsonResponse(res)
-    
+
     if question_id:
         obj = QuestionHistory(user_id=user_id,
                         question_id=question_id,
                         question_answer=user_query)
         obj.save()
+        q_obj = UserQuestion(question_id=question_id+1)
+        next_question_to_ask =  q_obj.question_text
+        next_question_id = q_obj.question_id
+        options = q_obj.question_options
+        scores = q_obj.question_scores
+
+        res = {'question': next_question_to_ask,
+                'options': options, 'scores': scores,
+                 'question_id': next_question_id,}
+        return JsonResponse(res)
 
 
 
