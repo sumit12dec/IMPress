@@ -63,8 +63,13 @@ def post_user_text(request):
                         question_id=question_id,
                         question_answer=user_query)
         obj.save()
-        q_obj = UserQuestion(question_id=int(question_id)+1)
+        print type(question_id), question_id, "ok"
+        q_obj = UserQuestion.objects.get(question_id=int(question_id)+1)
+        print q_obj.question_text,"question_id"
+        # for o in q_obj:
+        #     print q_obj.o
         next_question_to_ask =  q_obj.question_text
+        print next_question_to_ask
         next_question_id = q_obj.question_id
         options = q_obj.question_options
         scores = q_obj.question_scores
