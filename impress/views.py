@@ -43,7 +43,7 @@ def get_mood_plot(user_id):
         y.append(o['user_points_taken'])
     plt.plot(x, y, color='blue', lw=2)
     filename = str(user_id)+'_mood_chart.png'
-    plt.savefig('/var/www/instasleuth/instasleuth/static/' + filename)
+    plt.savefig('/var/www/IMPress/static/' + filename)
     # with open(filename, 'wb+') as destination:
     #     for chunk in file.chunks():
     #         destination.write(chunk)
