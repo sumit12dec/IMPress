@@ -41,6 +41,8 @@ def get_mood_plot(user_id):
     for o in data:
         x.append(o['secs_ago'])
         y.append(o['user_points_taken'])
+    x = x[::-1]
+    y = y[::-1]
     plt.plot(x, y, color='blue', lw=2)
     filename = str(user_id)+'_mood_chart.png'
     plt.xlabel('Seconds Ago', fontsize=18)
