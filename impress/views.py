@@ -11,7 +11,7 @@ UserQuestion, QuestionHistory, NextQuestionLink
 from django.core import serializers
 from datetime import datetime as dt
 from dateutil import tz
-import matplotlib as mlp
+import matplotlib as mpl
 mpl.use('Agg')
 
 import matplotlib.pyplot as plt
