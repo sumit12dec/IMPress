@@ -117,7 +117,10 @@ def post_user_text(request):
         print type(question_id), question_id, "ok"
         print question_option_clicked
         if question_option_clicked:
-            nxt_ques_obj = NextQuestionLink(question_id=int(question_id), question_options=int(question_option_clicked))
+            nxt_ques_obj = NextQuestionLink.objects.get(question_id=int(question_id), question_options=int(question_option_clicked))
+            print nxt_ques_obj
+            print nxt_ques_obj.question_id
+            print nxt_ques_obj.question_options
             next_question_id = nxt_ques_obj.next_question_id
             print next_question_id, "next_question_id"
 
