@@ -11,7 +11,7 @@ class UserQuestionAdmin(admin.ModelAdmin):
 	pass
 class QuestionHistoryAdmin(admin.ModelAdmin):
 	pass
-class NextQuestionLink(admin.ModelAdmin):
+class NextQuestionLinkAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(UserPoints, UserPointsAdmin)
 admin.site.register(UserData, UserDataAdmin)
