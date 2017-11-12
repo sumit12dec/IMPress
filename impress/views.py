@@ -26,7 +26,7 @@ def get_user_points_history(user_id):
         timestamp = o.point_deviation_timestamp
         secs = (utcnow - timestamp).seconds
         print secs, "secs"
-        d = {'user_points_taken': u_points, 'timestamp': timestamp}
+        d = {'user_points_taken': u_points, 'secs_ago': secs}
         final_list.append(d)
     print final_list
 
