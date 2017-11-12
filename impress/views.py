@@ -32,6 +32,7 @@ def get_user_points_history(user_id):
         print secs, "secs"
         d = {'user_points_taken': u_points, 'secs_ago': secs/float(60)}
         final_list.append(d)
+    print final_list,"check"
     return final_list
 
 def get_mood_plot(user_id):
