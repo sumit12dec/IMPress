@@ -9,7 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import UserPoints, UserData, UserPointHistory, \
 UserQuestion, QuestionHistory, NextQuestionLink
 from django.core import serializers
-from shutil import copyfile
+from datetime import datetime as dt
+from dateutil import tz
 
 #BASE = '/Users/sumit/Desktop/instamojo/instasleuth'
 BASE = '/var/www/'
@@ -17,9 +18,14 @@ BASE = '/var/www/'
 def get_user_points_history(user_id):
     obj = UserPointHistory.objects.filter(user_id=user_id)
     final_list = []
+    utcnow = dt.utcnow().replace(tzinfo=tz.tzutc())
+    print utcnow
+
     for o in obj:
         u_points = o.user_points_taken
         timestamp = o.point_deviation_timestamp
+        secs = (utcnow - timestamp).seconds
+        print secs, "secs"
         d = {'user_points_taken': u_points, 'timestamp': timestamp}
         final_list.append(d)
     print final_list
