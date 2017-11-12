@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^post_user_text/', 'impress.views.post_user_text', name='post_user_text'),
     url(r'^user_points/', 'impress.views.user_points', name='user_points'),
+    url(r'^get_user_plot/(?P<user_id>\d+)/$', 'impress.views.get_user_plot', name='get_user_plot'),
     
     # url(r'^cloud_extract_data/', 'instasleuth.views.cloud_extract_data', name='cloud_extract_data'),
 

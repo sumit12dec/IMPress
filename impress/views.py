@@ -11,7 +11,8 @@ UserQuestion, QuestionHistory, NextQuestionLink
 from django.core import serializers
 from datetime import datetime as dt
 from dateutil import tz
-
+import matplotlib.pyplot as plt
+import numpy as np
 #BASE = '/Users/sumit/Desktop/instamojo/instasleuth'
 BASE = '/var/www/'
 
@@ -28,10 +29,30 @@ def get_user_points_history(user_id):
         print secs, "secs"
         d = {'user_points_taken': u_points, 'secs_ago': secs}
         final_list.append(d)
-    print final_list
+    return final_list
+
+def get_mood_plot(user_id):
+    data = get_user_points_history(user_id)
+    x = []
+    y = []
+    for o in data:
+        x.append(o['secs_ago'])
+        y.append(o['user_points_taken'])
+    plt.plot(x, y, color='blue', lw=2)
+    filename = str(user_id)+'_mood_chart.png'
+    plt.savefig('/var/www/instasleuth/instasleuth/static/' + filename)
+    # with open(filename, 'wb+') as destination:
+    #     for chunk in file.chunks():
+    #         destination.write(chunk)
+    time.sleep(2)
+    return 'http://54.89.58.71/static/'+filename
 
 
-get_user_points_history(1)
+
+@csrf_exempt
+def get_user_plot(request, user_id):
+    image_url = get_mood_plot(1)
+    return HttpResponse(image_url)
 
 
 @csrf_exempt
