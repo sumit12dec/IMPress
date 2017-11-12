@@ -30,7 +30,7 @@ def get_user_points_history(user_id):
         timestamp = o.point_deviation_timestamp
         secs = (utcnow - timestamp).seconds
         print secs, "secs"
-        d = {'user_points_taken': u_points, 'secs_ago': secs}
+        d = {'user_points_taken': u_points, 'secs_ago': secs/60}
         final_list.append(d)
     return final_list
 
@@ -46,7 +46,7 @@ def get_mood_plot(user_id):
 
     plt.plot(x, y, "o-", color='blue')
     filename = str(user_id)+'_mood_chart.png'
-    plt.xlabel('Seconds Ago', fontsize=18)
+    plt.xlabel('Mins Ago', fontsize=18)
     plt.ylabel('Mood Level', fontsize=16)
 
     plt.savefig('/var/www/IMPress/static/' + filename)
