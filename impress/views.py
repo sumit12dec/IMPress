@@ -59,7 +59,7 @@ def get_mood_plot(user_id):
 
 @csrf_exempt
 def get_user_plot(request, user_id):
-    image_url = get_mood_plot(1)
+    image_url = get_mood_plot(user_id)
     return HttpResponse(image_url)
 
 
