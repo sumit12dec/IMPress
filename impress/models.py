@@ -34,6 +34,10 @@ class QuestionHistory(models.Model):
 	question_answer = models.CharField(max_length=1000)
 
 
+class NextQuestionLink(models.Model):
+	question_id = models.IntegerField(max_length=100)
+	question_options = models.CharField(max_length=1000)
+	next_question_id = models.IntegerField(max_length=1000)
 
 
 

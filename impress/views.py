@@ -6,12 +6,27 @@ import apiai
 import time
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .models import UserPoints, UserData, UserPointHistory, UserQuestion, QuestionHistory
+from .models import UserPoints, UserData, UserPointHistory, \
+UserQuestion, QuestionHistory, NextQuestionLink
 from django.core import serializers
 from shutil import copyfile
 
 #BASE = '/Users/sumit/Desktop/instamojo/instasleuth'
 BASE = '/var/www/'
+
+def get_user_points_history(user_id):
+    obj = UserPointHistory.objects.filter(user_id=user_id)
+    final_list = []
+    for o in obj:
+        u_points = o.user_points_taken
+        timestamp = o.point_deviation_timestamp
+        d = {'user_points_taken': u_points, 'timestamp': timestamp}
+        final_list.append(d)
+    print final_list
+
+
+get_user_points_history(1)
+
 
 @csrf_exempt
 def post_user_text(request):
@@ -19,6 +34,7 @@ def post_user_text(request):
         user_id = request.POST.get('user_id')
         user_query = request.POST.get('user_query')
         question_id = request.POST.get('question_id', None)
+        question_option_clicked = request.POST.get('option_number_clicked', None)
         
     ai = apiai.ApiAI(settings.CLIENT_ACCESS_TOKEN)
 
@@ -64,20 +80,24 @@ def post_user_text(request):
                         question_answer=user_query)
         obj.save()
         print type(question_id), question_id, "ok"
-        q_obj = UserQuestion.objects.get(question_id=int(question_id)+1)
-        print q_obj.question_text,"question_id"
-        # for o in q_obj:
-        #     print q_obj.o
-        next_question_to_ask =  q_obj.question_text
-        print next_question_to_ask
-        next_question_id = q_obj.question_id
-        options = q_obj.question_options
-        scores = q_obj.question_scores
+        print question_option_clicked
+        if question_option_clicked:
+            nxt_ques_obj = NextQuestionLink(question_id=int(question_id), question_options=question_option_clicked)
+            next_question_id = nxt_ques_obj.next_question_id
+            print next_question_id, "next_question_id"
 
-        res = {'question': next_question_to_ask,
-                'options': options, 'scores': scores,
-                 'question_id': next_question_id,}
-        return JsonResponse(res)
+            q_obj = UserQuestion.objects.get(question_id=next_question_id)
+            next_question_to_ask =  q_obj.question_text
+            print next_question_to_ask
+            next_question_id = q_obj.question_id
+            options = q_obj.question_options
+            scores = q_obj.question_scores
+
+            res = {'question': next_question_to_ask,
+                    'options': options, 'scores': scores,
+                     'question_id': next_question_id,}
+            return JsonResponse(res)
+        return HttpResponse("Something")
 
 
 
