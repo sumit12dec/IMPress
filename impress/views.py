@@ -121,7 +121,7 @@ def post_user_text(request):
             next_question_id = nxt_ques_obj.next_question_id
             print next_question_id, "next_question_id"
 
-            q_obj = UserQuestion.objects.get(question_id=next_question_id)
+            q_obj = UserQuestion.objects.get(question_id=int(next_question_id))
             next_question_to_ask =  q_obj.question_text
             print next_question_to_ask
             next_question_id = q_obj.question_id
